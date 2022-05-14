@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SearchWeatherInYourCity" />
+        <module name="search-weather-in-your-city" />
+        <module name="nab-automation-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SearchWeatherInYourCity" target="1.8" />
+      <module name="nab-automation-test" target="1.5" />
+      <module name="search-weather-in-your-city" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
