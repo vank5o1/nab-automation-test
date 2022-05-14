@@ -79,7 +79,7 @@ public class SearchWeatherDetailsPage extends PageObjectBase {
     @Step("Compare the displayed Temperature is matched the returned Temperature in the previous search screen")
     public SearchWeatherDetailsPage verifyTemperatureIsDisplayedCorrectly(String temp) {
         String temperature = currentTemp.getText();
-        Assert.assertEquals(temperature,temp.replace(" ", "").replace("С", "C"));
+        Assert.assertEquals(temperature,temp.replace(" ", "").replace("С ", "C"));
         return this;
     }
 

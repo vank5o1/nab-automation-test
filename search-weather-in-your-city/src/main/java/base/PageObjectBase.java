@@ -35,7 +35,7 @@ public class PageObjectBase {
     @Step("Wait until element to able to click")
     public boolean waitClickable(WebElement element, int second) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, second);
+            WebDriverWait wait = new WebDriverWait(driver,second);
             wait.until(ExpectedConditions.elementToBeClickable(element));
             return true;
         } catch (Exception e) {
