@@ -26,7 +26,7 @@ public class SearchWeatherPage extends PageObjectBase {
     @FindBy(xpath = "//*[@id='forecast_list_ul']/table")
     private WebElement searchResultTable;
 
-    @FindBy(xpath = "//*[@id='forecast_list_ul']/table/tbody/tr")
+    @FindBy(tagName = "tr")
     private List<WebElement> searchResultItem;
 
     @FindBy(xpath = "//*[@id='forecast_list_ul']/div[@class='alert alert-warning' and contains(text(),'Not found')]")
@@ -38,7 +38,7 @@ public class SearchWeatherPage extends PageObjectBase {
     @FindBy(xpath = "//*[@id='forecast_list_ul']/table//a[starts-with(@href, '/city')]")
     private WebElement resultName;
 
-    @FindBy(xpath = "//*[@id='forecast_list_ul']/table//span[@class='badge badge-info']")
+    @FindBy(css = "#forecast_list_ul > table span.badge.badge-info")
     private WebElement resultTemperature;
 
     @FindBy(xpath = "//*[@id='forecast_list_ul']/table//p[contains(text(),'Geo coords')]")
@@ -46,34 +46,34 @@ public class SearchWeatherPage extends PageObjectBase {
 
     @Step("Verify Weather in your city screen")
     public SearchWeatherPage verifyWeatherInYourCityScreen(String searchValue) {
-        waitDisplayed(pageTitle,30);
-        waitDisplayed(searchForm,30);
-        waitDisplayed(btnSearch,30);
+        isDisplayed(pageTitle,30);
+        isDisplayed(searchForm,30);
+        isDisplayed(btnSearch,30);
         Assert.assertEquals(searchForm.getAttribute("value"), searchValue);
-        waitDisplayed(guide,30);
+        isDisplayed(guide,30);
         return this;
     }
 
     @Step("Verify Weather in your city has result")
     public SearchWeatherPage verifyWeatherInYourCityHasResult() {
-        waitDisplayed(searchResultTable,30);
+        isDisplayed(searchResultTable,30);
         count = searchResultItem.size();
-        assert count > 0;
+        assert count >0;
         return this;
     }
 
     @Step("Verify the 1st returned result")
     public SearchWeatherPage verifyThe1stReturnedResult(String searchValue) {
-        waitDisplayed(resultName,30);
-        waitDisplayed(resultTemperature,30);
-        waitDisplayed(resultGeoCoords,30);
+        isDisplayed(resultName,30);
+        isDisplayed(resultTemperature,30);
+        isDisplayed(resultGeoCoords,30);
         String cityName = getTheReturnedCityName();
         Assert.assertTrue(cityName.contains(searchValue));
         return this;
     }
 
     @Step("Go to details of the 1st result")
-    public SearchWeatherPage goTo1stResultDetails(){
+    public SearchWeatherPage goToThe1stResultDetails(){
         click(resultName);
         sleep(10);
         return this;

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class PageObjectBase {
     protected WebDriver driver;
@@ -41,7 +42,6 @@ public class PageObjectBase {
         } catch (Exception e) {
             return false;
         }
-
     }
 
     @Step("Wait until element is displayed")
@@ -53,6 +53,12 @@ public class PageObjectBase {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Step("Verify element is displayed")
+    public PageObjectBase isDisplayed(WebElement element, int second) {
+        Assert.assertTrue(waitDisplayed(element,second));
+        return this;
     }
 
     @Step("Click to an element")
