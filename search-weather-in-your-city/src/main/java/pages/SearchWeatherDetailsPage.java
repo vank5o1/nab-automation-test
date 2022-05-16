@@ -21,16 +21,16 @@ public class SearchWeatherDetailsPage extends PageObjectBase {
     @FindBy(xpath = "//*[@id='weather-widget']//button[@type='submit']")
     private WebElement btnSearchCity;
 
-    @FindBy(xpath = "//*[@id='weather-widget']//span[@class='orange-text']")
+    @FindBy(css = "#weather-widget span.orange-text")
     private WebElement currentTime;
 
-    @FindBy(xpath = "//*[@id='weather-widget']//h2")
+    @FindBy(css = "#weather-widget h2")
     private WebElement currentCityName;
 
     @FindBy(xpath = "//*[@id='weather-widget']//div[@class='current-temp']/span")
     private WebElement currentTemp;
 
-    @FindBy(xpath = "//*[@id='weather-widget']//div[@id='widget-map']")
+    @FindBy(css = "#weather-widget div#widget-map")
     private WebElement cityMap;
 
     @FindBy(xpath = "//*[@id='weather-widget']//h3[@class='mobile-padding' and contains(text(),'Hourly forecast')]")
@@ -44,17 +44,19 @@ public class SearchWeatherDetailsPage extends PageObjectBase {
 
     @Step("Verify details screen")
     public SearchWeatherDetailsPage verifyWeatherDetailsScreen(String getNow, String searchValue, String temp) {
-        waitDisplayed(searchCityForm,30);
-        waitDisplayed(btnSearchCity,30);
-        waitDisplayed(cityMap,30);
-        waitDisplayed(hourlyForecast,30);
-        waitDisplayed(eightDayForecast,30);
+        isDisplayed(searchCityForm,30);
+        isDisplayed(btnSearchCity,30);
+        isDisplayed(cityMap,30);
+        isDisplayed(hourlyForecast,30);
+        isDisplayed(eightDayForecast,30);
         verifyForecastIncludes8Days();
-        waitDisplayed(currentTime,30);
-        waitDisplayed(currentCityName,30);
-        waitDisplayed(currentTemp,30);
+        isDisplayed(currentTime,30);
+        isDisplayed(currentCityName,30);
+        isDisplayed(currentTemp,30);
         compareTimeWithCurrentTime(getNow);
-        verifyTheDisplayedCityContainsSearchValue(searchValue);
+        verifyTheDisplayedCityNameContainsSearchValue(searchValue);
+        //Sometimes the returned temperature values are not the same between the 2 monitors.
+        //If run using the command line, it always returns fail due to the difference between `C` characters.
         verifyTemperatureIsDisplayedCorrectly(temp);
         return this;
     }
@@ -62,13 +64,14 @@ public class SearchWeatherDetailsPage extends PageObjectBase {
     @Step("Compare time is now")
     public SearchWeatherDetailsPage compareTimeWithCurrentTime(String getNow) {
         String now = getNow.replace("AM", "am").replace("PM","pm");
-        String time = currentTime.getText();
-        Assert.assertEquals(time,now);
+        String getCurrentTime = currentTime.getText();
+        assert (now.compareTo(getCurrentTime)-1) <=0;
+        assert (now.compareTo(getCurrentTime)+1) >=0;
         return this;
     }
 
-    @Step("Compare the displayed City with search value")
-    public SearchWeatherDetailsPage verifyTheDisplayedCityContainsSearchValue(String searchValue) {
+    @Step("Compare the displayed City Name with search value")
+    public SearchWeatherDetailsPage verifyTheDisplayedCityNameContainsSearchValue(String searchValue) {
         String cityName = currentCityName.getText();
         searchValue = searchValue.replace(" ", "").toLowerCase();
         searchValue = searchValue.substring(0,1).toUpperCase()+searchValue.substring(1).toLowerCase();
@@ -79,14 +82,14 @@ public class SearchWeatherDetailsPage extends PageObjectBase {
     @Step("Compare the displayed Temperature is matched the returned Temperature in the previous search screen")
     public SearchWeatherDetailsPage verifyTemperatureIsDisplayedCorrectly(String temp) {
         String temperature = currentTemp.getText();
-        Assert.assertEquals(temperature,temp.replace(" ", "").replace("С ", "C"));
+        Assert.assertEquals(temperature,temp.replace(" ", "").replace("С", "C"));
         return this;
     }
 
     @Step("Verify 8-day forecast section includes 8 data rows")
     public SearchWeatherDetailsPage verifyForecastIncludes8Days() {
         count = dayList.size();
-        assert count > 0;
+        assert count == 8;
         return this;
     }
 }

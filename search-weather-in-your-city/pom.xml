@@ -17,27 +17,32 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.1.0</version>
+            <version>7.5</version>
         </dependency>
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>3.6.0</version>
+            <version>5.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-testng</artifactId>
-            <version>5.0.11</version>
+            <version>5.1.2</version>
         </dependency>
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>logger-java-log4j</artifactId>
-            <version>5.0.3</version>
+            <version>5.1.4</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-generator</artifactId>
-            <version>2.13.0</version>
+            <version>2.17.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.17.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -47,7 +52,7 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
+            <version>3.10.1</version>
         </dependency>
     </dependencies>
     <build>
@@ -60,7 +65,17 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>test-suite.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.6/aspectjweaver-1.9.6.jar"
+                    </argLine>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>1.9.6</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -68,6 +83,14 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportVersion>2.14.0</reportVersion>
                 </configuration>
             </plugin>
         </plugins>
