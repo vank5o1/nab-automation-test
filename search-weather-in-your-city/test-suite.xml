@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Regression Suite" configfailurepolicy="continue">
+<parameter name="env" value="staging"/>
+    <parameter name="browser" value="chrome"/>
+    <parameter name="isHeadless" value="false"/>
+
+    <test name="Suite test" parallel="methods" thread-count="1">
+        <classes>
+            <class name="test.SearchWeatherTests" />
+        </classes>
+    </test>
+</suite>
